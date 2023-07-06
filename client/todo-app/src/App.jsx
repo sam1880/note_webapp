@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 
 function App() {
   const[todos, setTodos] = useState([]);
+  const[title, setTitle] = useState('');
+  const[description, setDescription] = useState('');
 
   useEffect(() =>{
     setInterval(() =>{
@@ -16,24 +18,31 @@ function App() {
     }, 1000)
   }, [])
 
+  function handleSubmit(){
+
+      fetch("http://localhost:3000/todos", {
+        method: "POST",
+        body: JSON.stringify({
+          title: title,
+          description: description
+        }),
+        headers: {
+          'Content-Type': "application/json"
+        },
+      }).then((res)=>{
+        res.text().then((data)=>{
+          console.log(data)
+        })
+      })
+    }
+
+
 return(
   <div>
     
-  <input placeholder='title' id='title' value={this.state.title}></input><br/>
-  <input placeholder='description' id='description' value={this.state.description}></input>
-  <button onClick = {()=>{
-    fetch("http://localhost:3000/todos"),{
-      method: "POST",
-      body: JSON.stringify({
-        title: this.state.title,
-        description: this.state.description
-      })
-    }.then((res)=>{
-      res.json().then((data)=>{
-        console.log(data)
-      })
-    })
-  }}>send</button>
+  <input placeholder='title' value={title} onChange={e => setTitle(e.target.value)}></input><br/>
+  <input placeholder='description' value={description} onChange={e => setDescription(e.target.value)}></input>
+  <button onClick = {handleSubmit}>send</button>
 
     {todos.map(todo =>{
       return(
