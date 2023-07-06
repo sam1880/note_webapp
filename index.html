@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TODO app</title>
+</head>
+<script>
+    function deleteDone(){
+        console.log("done delete")
+    }
+
+    function deleteTodo(id){
+        fetch("http://localhost:3000/todos/" + id, {
+            method: "DELETE",
+            headers:{
+                "Content-Type": "application/json"
+            }
+        }).then(deleteDone)
+    }
+
+  function showData(data) {
+    console.log(data);
+  }
+
+  function callbackFn(resp) {
+    resp.text().then(function(responseText) {
+      console.log(responseText);
+    });
+  }
+
+  function todosCallback(data) {
+    console.log(data);
+    var parentElement = document.getElementById("mainArea");
+
+    for (let i = 0; i < data.length; i++) {
+      var childrenElement = document.createElement("div");
+      var grandChildrenElement1 = document.createElement("span");
+      grandChildrenElement1.innerHTML = data[i].title;
+      var grandChildrenElement2 = document.createElement("span");
+      grandChildrenElement2.innerHTML = data[i].description;
+      var grandChildrenElement3 = document.createElement("button");
+      grandChildrenElement3.innerHTML = "delete";
+      grandChildrenElement3.setAttribute("onclick", "deleteTodo(" + data[i].id + ")")
+
+      childrenElement.appendChild(grandChildrenElement1);
+      childrenElement.appendChild(grandChildrenElement2);
+      childrenElement.appendChild(grandChildrenElement3);
+
+      parentElement.appendChild(childrenElement);
+    }
+  }
+
+  function onPress() {
+    var title = document.getElementById("title").value;
+    var description = document.getElementById("description").value;
+
+    fetch("http://localhost:3000/todos", {
+      method: "POST",
+      body: JSON.stringify({
+        title: title,
+        description: description
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function() {
+      return fetch("http://localhost:3000/todos");
+    }).then(function(response) {
+      return response.json();
+    }).then(todosCallback).catch(function(error) {
+      console.error("Error:", error);
+    });
+  }
+</script>
+<body>
+  Todo title<br>
+  <input type="text" id="title"><br><br>
+  Todo description<br>
+  <input type="text" id="description"><br><br>
+  <button onclick="onPress()">Send Todo</button><br><br>
+  <div id="mainArea"></div>
+</body>
+</html>
