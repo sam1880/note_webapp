@@ -90,11 +90,3 @@ app.get("/", (req, res)=>{
 app.listen(3000, () =>{
     console.log(`server is running on port ${port}`)
 })
-
-
-//delete functionality worked fine when i havent added the todo post function, now when i delete one of the recently added todos from the webpage, all the recently added todos disappear, and no todo is deleted from the backend even the one i intended to. after refreshing the page everything works fine for the already exisiting todos, but again when i add some todos, and try to delete one, all the recently added ones disappear, the old one stays, non gets deleted from the backend, and again after refresh everyhting works fine for the old existing todos
-//this error was because i was returning res.status(201).json({todos})
-//the above in the postlist function, which is the whole todo list
-//instead i should have returned res.status(201).json(todoObj)
-//only one todo object
-//the warning for key was also cuz of same issue

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head >
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Browser</title>
+
+<script type="text/javascript">
+
+    function changeZindex(div1, div2, zIndex1, zIndex2) {  
+        document.getElementById(div1).style.zIndex = zIndex1;
+        document.getElementById(div2).style.zIndex = zIndex2;
+        document.getElementById(div2).style.height = "500px";
+        document.getElementById(div2).style.width = "500px";
+        document.getElementById(div2).style.position = "absolute";
+    } </script>
+    
+</head>
+
+<body>
+    <div id="main" style="
+        z-index: 1;
+        height: 400px;
+        width: 400px;
+        background-color: Blue;">
+
+        <div id="div1" style="
+        z-index: 1;
+        height: 80px;
+        width: 200px;
+        background-color: Yellow;">
+            <h1>Heading One</h1>
+        </div>
+
+        <div id="div2" style=" z-index: -1;
+        height: 80px;
+        width: 200px;
+        top: 20px;
+        left: 20px;
+        background-color: Green;">
+            <h1>Heading Two</h1>
+        </div>
+
+    </div>
+    <input type="button" value="Change Z-index" onclick="changeZindex('div1', 'div2', -1, 1)" />
+</body>
+
+</html>
