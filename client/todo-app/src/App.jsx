@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import { blue } from "@mui/material/colors";
+import './index.css'
+import zIndex from "@mui/material/styles/zIndex";
 
 
 function App(){
@@ -92,27 +95,50 @@ function App(){
 
       <div style={{
         display: "flex",
-        alignItems: "center",
+        boxShadow: "0px 0px 0px 0px rgba(0,0,0,0.2), 0px 0px 0px 0px rgba(0,0,0,0.19)",
         justifyContent: "center",
         flexFlow:"column",
-        marginTop:"30px"
+        marginTop:"30px",
+        padding: "10px",
+        width: "500px",
+        zIndex: 1,
+        pointerEvents: editMode ? "none" : "auto",
+        margin: "0 auto"
       }}>
-        <TextField id="standard-basic" label="title" variant="standard"
+        <TextField style={{borderBottom: "3px solid white",}} InputLabelProps={{
+        sx: {
+          color: 'white',
+          textTransform: 'capitalize',
+        },
+      }}
+      sx={{ input: { color: 'white' } }}id="standard-basic" label="title" variant="standard"
         placeholder="title"
         value = {title}
         onChange={(e)=> setTitle(e.target.value)}>
         </TextField>
         <br/>
-        <TextField id="standard-multiline-static" label="description" variant="standard" 
+        <TextField style={{borderBottom: "3px solid white",}} InputLabelProps={{
+          sx: {
+            color: 'white',
+            textTransform: 'capitalize',
+          },
+        }}
+        id="standard-multiline-static" label="description" variant="standard" 
         placeholder="description"
+        sx={{ input: { color: 'white' },
+        "& .MuiInputBase-root": {
+          color: 'white'
+        }
+        }}
         multiline
         value = {description}
         onChange={(e)=> setDescription(e.target.value)}
         minRows={3}
-        maxRows={7}>
+        maxRows={7}
+        fullWidth={1}>
         </TextField>
         <Button 
-          style={{marginTop: 10}}
+          style={{color: "white",marginTop: 10, width: 100}}
           variant="text"
           onClick={()=> {postTodo()}}>
           send
@@ -129,50 +155,103 @@ function App(){
 
           {editMode == true && editableTodo.id === todo.id ?
           (
-            <div>
-              <TextField id="standard-basic" label="title" variant="standard" size = "small"
+            <div style={{
+              boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)",
+              backgroundColor: "#F2A290",
+              zIndex: 2,
+              height: "90vh",
+              minHeight: "10vh",
+              position: "fixed",
+              top: "2vh",
+              left: "2vh",
+              right: "2vh",
+              padding: "3vh"
+            }}>
+              <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}>
+              <TextField style={{borderBottom: "3px solid white",}} InputLabelProps={{
+                sx: {
+                  color: 'white',
+                  textTransform: 'capitalize',
+                },
+              }}
+              sx={{ input: { color: 'white' } }}fullWidth={1}
+              id="standard-basic" label="title" variant="standard" size = "small"
               type="text"
               value={editableTitle}
               onChange={(e)=> setEditableTitle(e.target.value)}>
               </TextField>
-              <TextField multiline id="standard-basic" label="description" variant="standard" size = "small"
+              <Button style={{color: "white"}}variant="text" onClick={() => {editTodo(editableTodo); document.body.style.overflow = "";}}>save</Button>
+              </div>
+              <br/>
+              <div style={{
+                display: "flex",
+              }}>
+              <TextField style={{borderBottom: "3px solid white",}} InputLabelProps={{
+                sx: {
+                  color: 'white',
+                  textTransform: 'capitalize',
+                },
+              }}
+              
+              sx={{ input: { color: 'white' },
+              "& .MuiInputBase-root": {
+                color: 'white'
+              }
+              }}multiline 
+              id="standard-basic" label="description" variant="standard" size = "small"
               type="title"
               value={editableDescription}
               onChange={(e) => setEditableDescription(e.target.value)}
-              maxRows={7}>
+              minRows={25}
+              maxRows={25}
+              fullWidth={1}>
               </TextField>
-              <button onClick={() => editTodo(editableTodo)}>save</button>
+              </div>
+              
+              
             </div>
           )
           :
           (
-            <span 
-            style={{
-              minWidth: "20px",
-              minHeight: "20px",
-              maxWidth: "100px",
-              border: "1px solid black",
-              margin: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              padding: "10px",
-              cursor: "pointer",
-              wordWrap: "break-word"
-            }}
-            key = {todo.id} onClick={() => {
-              setEditMode(true);
-              setEditableTodo(todo);
-              setEditableTitle(todo.title);
-              setEditableDescription(todo.description)}}>
-              {todo.id}<br/>
-              {todo.title}<br/>
-              {todo.description}<br/>
-            </span>
-          )}
+              <div 
+              style={{
+                backgroundColor :"#F2A290",
+                borderRadius: "2px",
+                boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)",
+                color: "white",
+                width: "900px",
+                minWidth: "30%",
+                maxWidth: "100%",
+                padding: "10px",
+                textAlign: "left",
+                margin: "10px",
+                cursor: "pointer",
+                zIndex: 1,
+                pointerEvents: editMode ? "none" : "auto"
+              }}
+              key = {todo.id} onClick={() => {
+                setEditMode(true);
+                setEditableTodo(todo);
+                setEditableTitle(todo.title);
+                setEditableDescription(todo.description);
+                document.body.style.overflow = "hidden";
+                }}>
+                <h2>{todo.title}</h2>
+                <p style={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}>{todo.description}</p>
+              </div>
+            )}
 
-          <Button variant="text"
-            onClick ={() => deleteTodo(todo.id)}>
-            delete</Button>
+            <Button style={{color: "white"}}
+              variant="text"
+              onClick ={() => deleteTodo(todo.id)}>
+              delete</Button>
 
         </div>
       ))}
