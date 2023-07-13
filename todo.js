@@ -1,10 +1,10 @@
 
+require("dotenv").config();
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require("path")
 const cors = require("cors")
-
-const port = 3000
+const PORT = process.env.PORT || 6010
 
 app = express()
 
@@ -88,17 +88,8 @@ app.get("/", (req, res)=>{
 })
 
 
-if(process.env.NODE_ENV=='production'){
-    const path = require('path')
-
-    app.get('/',(req,res)=>{
-        app.use(express.static(path.resolve(__dirname,'client','dist')))
-        res.sendFile(path.resolve(__dirname,'client','dist','index.html'))
-    })
-}
-
-app.listen(3000, () =>{
-    console.log(`server is running on port ${port}`)
+app.listen(PORT, () =>{
+    console.log(`server is running on port ${PORT}`)
 })
 
 
