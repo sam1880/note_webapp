@@ -87,6 +87,16 @@ app.get("/", (req, res)=>{
     res.sendFile(path.join(__dirname, "index.html"));
 })
 
+
+if(process.env.NODE_ENV=='production'){
+    const path = require('path')
+
+    app.get('/',(req,res)=>{
+        app.use(express.static(path.resolve(__dirname,'client','dist')))
+        res.sendFile(path.resolve(__dirname,'client','dist','index.html'))
+    })
+}
+
 app.listen(3000, () =>{
     console.log(`server is running on port ${port}`)
 })
