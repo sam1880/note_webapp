@@ -18,7 +18,7 @@ function App(){
   const[editableDescription, setEditableDescription] = useState("")
 
   function deleteTodo(todoid){
-    fetch("http://localhost:3000/todos/" + todoid,{
+    fetch("https://notes-zdua.onrender.com/todos/" + todoid,{
     method: "DELETE" 
   }
     ).then(()=>{
@@ -28,7 +28,7 @@ function App(){
   }
 
   function postTodo(){
-    fetch("http://localhost:3000/todos",{
+    fetch("https://notes-zdua.onrender.com/todos",{
       method: "POST",
       body: JSON.stringify({
         title: title,
@@ -53,7 +53,7 @@ function App(){
   }
 
   function editTodo(Todo) {
-    fetch("http://localhost:3000/todos/" + Todo.id, {
+    fetch("https://notes-zdua.onrender.com/todos/" + Todo.id, {
       method: "PUT",
       body: JSON.stringify({
         title: editableTitle,
@@ -82,7 +82,7 @@ function App(){
   }
 
   useEffect(()=>{
-    fetch("http://localhost:3000/todos")
+    fetch("https://notes-zdua.onrender.com/todos")
       .then((res)=> res.json()
         .then((data)=> {
           console.log(data)
